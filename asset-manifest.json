@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/fitness-website-project/static/css/main.2e49abe9.css",
+    "main.js": "/fitness-website-project/static/js/main.d3f1c725.js",
+    "static/js/453.75708390.chunk.js": "/fitness-website-project/static/js/453.75708390.chunk.js",
+    "static/media/hero.jpg": "/fitness-website-project/static/media/hero.5a578455b38eab6648f5.jpg",
+    "static/media/workout_plan.jpg": "/fitness-website-project/static/media/workout_plan.eb27586150a46e0d20f9.jpg",
+    "static/media/kettlebell-towel-closeup-gym-scene.jpg": "/fitness-website-project/static/media/kettlebell-towel-closeup-gym-scene.b167c04b6d1562f1f210.jpg",
+    "static/media/signin.jpg": "/fitness-website-project/static/media/signin.9abb055688fe86fa7d88.jpg",
+    "static/media/diet.jpg": "/fitness-website-project/static/media/diet.7c389405ee2ab18a1c87.jpg",
+    "static/media/bodyParts.png": "/fitness-website-project/static/media/bodyParts.f2164802aa35c7731048.png",
+    "static/media/gym-1048852_640.png": "/fitness-website-project/static/media/gym-1048852_640.85104de953d2974a25e4.png",
+    "index.html": "/fitness-website-project/index.html",
+    "main.2e49abe9.css.map": "/fitness-website-project/static/css/main.2e49abe9.css.map",
+    "main.d3f1c725.js.map": "/fitness-website-project/static/js/main.d3f1c725.js.map",
+    "453.75708390.chunk.js.map": "/fitness-website-project/static/js/453.75708390.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2e49abe9.css",
+    "static/js/main.d3f1c725.js"
+  ]
+}
