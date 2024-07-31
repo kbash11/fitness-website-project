@@ -16,6 +16,14 @@ input[type="password"]::-ms-clear {
   display: none;
 }
 
+/* Add this to your main CSS file or a custom CSS file */
+.gradient-text {
+  background: linear-gradient(to right, #4facfe,#f8b851, #fefe00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
 .custom-text {
   letter-spacing: 2.5px;
   color: transparent;

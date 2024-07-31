@@ -11,7 +11,8 @@ module.exports = {
           900: "#0B2447"
         }
         
-      }
+      },
+      
     },
   },
   plugins: [],

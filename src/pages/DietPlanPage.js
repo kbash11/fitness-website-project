@@ -7,7 +7,7 @@ import dietImage from '../assets/diet.jpg'
 
 const DietPlanForm = () => {
   
-  const {formData, setFormData, loading,mealPlan,fetchDietData}=useContext(AppContext);
+  const {formData, setFormData, loading,mealPlan,fetchDietData,scrollToSection,dietOutputRef}=useContext(AppContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -277,7 +277,7 @@ const DietPlanForm = () => {
             </div>
             </div>
 
-            <button type="submit" className="text-white mb-3 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm sm:text-md w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+            <button type="submit" onClick={()=>scrollToSection(dietOutputRef)} className="text-white mb-3 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm sm:text-md w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
           </form>
 
         </div>

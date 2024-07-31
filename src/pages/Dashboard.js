@@ -23,7 +23,7 @@ const Dashboard = () => {
               1000,
               'Our services include preparing workout plans,',
               1000,
-              'Our services include an Ask AI feature',
+              'Our services include and Ask AI feature',
               1000
             ]}
             wrapper="span"

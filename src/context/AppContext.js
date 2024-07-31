@@ -1,14 +1,17 @@
-import {createContext} from'react';
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import run from '../utils/ChatWithAI';
+import { useRef } from 'react';
 
-export const AppContext=createContext();
+export const AppContext = createContext();
 
-export default function AppContextProvider({children}){
+export default function AppContextProvider({ children }) {
+    const [openLogin,setOpenLogin]=useState(false);
+    const [openSignUp,setOpenSignUp]=useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [loading,setLoading]=useState(false);
+    const [loading, setLoading] = useState(false);
     const [mealPlan, setMealPlan] = useState(null);
-    const [selected,setSelected]=useState('home');
+    const [selected, setSelected] = useState('home');
     const [formData, setFormData] = useState({
         age: '',
         height: '',
@@ -22,17 +25,34 @@ export default function AppContextProvider({children}){
         primaryGoal: '',
         mealsPerDay: '',
         dislikedFoods: '',
-      });
+    });
 
-    const [loginFormData,setLoginFormData]=useState({
+    const [input, setInput] = useState("");
+    const [recentPrompt, setRecentPrompt] = useState("");
+    const [prevPrompts, setPrevPrompts] = useState([]);
+    const [showResult, setShowResult] = useState(false);
+    const [resultData, setResultData] = useState("");
+
+    const [loginFormData, setLoginFormData] = useState({
         firstName: '',
         lastName: '',
         email: '',
-        password:'',
+        password: '',
         createPassword: '',
         confirmPassword: '',
-    
     });
+
+    const homeRef = useRef(null);
+    const aboutRef = useRef(null);
+    const contactRef = useRef(null);
+    const dietOutputRef = useRef(null);
+
+    const scrollToSection = (ref) => {
+        if (ref.current) {
+        ref.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     const url = 'https://exercisedb.p.rapidapi.com';
 
     // GOOGLE GEMINI API
@@ -105,7 +125,7 @@ export default function AppContextProvider({children}){
                   "quote": "The only bad workout is the one that didn't happen."
                 }`;
 
-    const apiKey =process.env.REACT_APP_GOOGLE_GEMINI_API_KEY;
+    const apiKey = process.env.REACT_APP_GOOGLE_GEMINI_API_KEY;
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
         model: "gemini-1.5-pro",
@@ -114,37 +134,79 @@ export default function AppContextProvider({children}){
     const fetchDietData = async () => {
         setLoading(true);
         try {
-        const result = await model.generateContent(prompt);
-        const res = await result.response;
-        const text = await res.text();
-        const jsonText = text.replace(/```json|```/g, '');      
-        const dietPlan = JSON.parse(jsonText);
-        setMealPlan(dietPlan);
-        console.log(dietPlan);
-
+            const result = await model.generateContent(prompt);
+            const res = await result.response;
+            const text = await res.text();
+            const jsonText = text.replace(/```json|```/g, '');      
+            const dietPlan = JSON.parse(jsonText);
+            setMealPlan(dietPlan);
+            console.log(dietPlan);
         } catch (error) {
-        console.error('Error:', error);
-        alert("Error: " + error);
+            console.error('Error:', error);
+            alert("Error: " + error);
         } finally {
-        setLoading(false);
+            setLoading(false);
         }
     };
 
+    const formatResponse = (text) => {
+        // Replace instances of double asterisks with new lines
+        return text.replace(/\*\*(.*?)\*\*/g, '\n$1\n');
+    };
     
+    const onSent = async () => {
+        setResultData("");
+        setLoading(true);
+        setShowResult(true);
+    
+        // Save recent prompt and add it to previous prompts
+        if (input) {
+            const newPrompt = { prompt: input, response: "" };
+            setRecentPrompt(input);
+            setPrevPrompts((prev) => [...prev, newPrompt]);
 
+            try {
+                const chatResponse = await run(input);
+                const formattedResponse = formatResponse(chatResponse);
+                setResultData(formattedResponse);
 
-    const values={
-        loading,setLoading,
+                // Update the latest prompt with the response
+                setPrevPrompts((prev) =>
+                    prev.map((p) =>
+                        p.prompt === input ? { ...p, response: formattedResponse } : p
+                    )
+                );
+            } catch (error) {
+                console.error('Error:', error);
+                alert("Error: " + error);
+            }
+        }
+        setLoading(false);
+        setInput("");
+    };
+
+    const values = {
+        loading, setLoading,
         mealPlan, setMealPlan,
         fetchDietData,
         formData, setFormData,
         isLoggedIn, setIsLoggedIn,
-        loginFormData,setLoginFormData,
-        selected,setSelected,
+        loginFormData, setLoginFormData,
+        selected, setSelected,
         url,
-    }
+        input, setInput,
+        recentPrompt, setRecentPrompt,
+        prevPrompts, setPrevPrompts,
+        showResult, setShowResult,
+        resultData, setResultData,
+        onSent,
+        openLogin, setOpenLogin,
+        openSignUp, setOpenSignUp,
+        homeRef, aboutRef, contactRef, scrollToSection,
+        dietOutputRef,
+    };
 
     return <AppContext.Provider value={values}>
         {children}
-        </AppContext.Provider>
+    </AppContext.Provider>
 }

@@ -8,9 +8,6 @@ import WorkoutPlanPage from './pages/WorkoutPlanPage';
 import AskAi from './pages/AskAi';
 import PrivateRoute from './components/PrivateRoute';
 import ExcerciseDetails from './pages/ExcerciseDetails';
-import About from './components/About';
-import Footer from './components/Footer';
-import Contact from './components/Contact';
 
 
 function App() {
@@ -46,10 +43,7 @@ function App() {
             <ExcerciseDetails/>
           </PrivateRoute>
         } />
-        <Route path="/about" element={<About  />} />
-        <Route path="/contact" element={<Contact  />} />
       </Routes>
-      <Footer/>
 
     </div>
   );

@@ -4,7 +4,7 @@ import { AppContext } from '../context/AppContext';
 
 
 const DietOutput = () => {
-  const {mealPlan}=useContext(AppContext);
+  const {mealPlan,dietOutputRef}=useContext(AppContext);
   if (!mealPlan) {
     return null;
   }
@@ -13,7 +13,7 @@ const DietOutput = () => {
 
 
   return (
-    <div className=" flex flex-col justify-center items-center p-6 ">
+    <div ref={dietOutputRef} className=" flex flex-col justify-center items-center p-6 ">
       
       <h2 className="text-3xl font-bold mb-4 text-center uppercase text-blue-950 drop-shadow">Your Diet Plan</h2>
 
